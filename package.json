@@ -1,0 +1,93 @@
+{
+  "name": "linter-homebrew-formula",
+  "version": "0.0.0",
+  "description": "Lint your Homebrew formulae with brew/cask audit/style commands.",
+  "keywords": [
+    "linter",
+    "lint",
+    "homebrew",
+    "formula",
+    "cask",
+    "ruby"
+  ],
+  "homepage": "http://github.com/danielbayley/atom-linter-homebrew-formula#readme",
+  "repository": "danielbayley/atom-linter-homebrew-formula",
+  "bugs": "https://github.com/danielbayley/atom-linter-homebrew-formula/issues",
+  "author": "Daniel Bayley <daniel.bayley@me.com> (https://github.com/danielbayley)",
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "coffeescript": "^2.5.1",
+    "eslint": "^7.11.0",
+    "eslint-plugin-coffee": "^0.1.13",
+    "husky": "^4.3.0",
+    "lint-staged": "^10.4.2"
+  },
+  "dependencies": {
+    "atom-package-deps": "^7.0.2",
+    "core-js": "^3.6.5"
+  },
+  "package-deps": [
+    {
+      "name": "linter",
+      "minimumVersion": "2.0.0"
+    }
+  ],
+  "os": [
+    "darwin"
+  ],
+  "engines": {
+    "atom": ">=1.4.0 <2.0.0"
+  },
+  "atomTranspilers": [
+    {
+      "glob": "*.coffee",
+      "transpiler": "@danielbayley/atom-coffeescript-transpiler"
+    }
+  ],
+  "providedServices": {
+    "linter": {
+      "versions": {
+        "2.0.0": "linter"
+      }
+    }
+  },
+  "activationHooks": [
+    "language-homebrew-formula:grammar-used",
+    "language-ruby:grammar-used"
+  ],
+  "eslintConfig": {
+    "parser": "eslint-plugin-coffee",
+    "plugins": [
+      "coffee"
+    ],
+    "extends": [
+      "plugin:coffee/eslint-recommended"
+    ],
+    "rules": {
+      "coffee/no-cond-assign": "off"
+    },
+    "env": {
+      "es6": true,
+      "node": true,
+      "atomtest": true
+    },
+    "globals": {
+      "atom": true
+    }
+  },
+  "lint-staged": {
+    "*.coffee": [
+      "eslint --cache"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "scripts": {
+    "test": "eslint --ignore-path .gitignore '*.coffee'",
+    "prepublishOnly": "npm test"
+  }
+}
